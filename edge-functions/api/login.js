@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 
 // KV实例名（必须和注册接口一致：user-kv）
-const KV_INSTANCE = 'user-kv';
+const KV_INSTANCE = 'user_kv';
 // 用户key前缀，和注册接口保持一致
 const USER_KEY_PREFIX = 'user_';
 
@@ -61,4 +61,5 @@ async function handleLogin(req) {
         console.error('登录接口异常：', error);
         return new Response('服务器内部错误！', { status: 500 });
     }
+
 }
