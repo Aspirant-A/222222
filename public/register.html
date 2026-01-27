@@ -47,17 +47,22 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8',
-                        // 修复2：添加跨域/预检兼容头，适配EdgeOne环境
                         'Accept': 'application/json'
                     },
-                    body: JSON.stringify({ username: username, password: password }),
-                    // 修复3：禁用浏览器默认缓存，强制每次请求最新接口
+                    body: JSON.stringify({ username, password }),
                     cache: 'no-cache'
                 });
 
-                // 统一解析后端JSON响应（修复1：解决后端返回JSON时前端未解析的兼容问题）
-                const resData = await res.json();
+                // 核心修复：新增响应解析容错，先转文本再尝试解析JSON
+                const resText = await res.text(); // 先以纯文本获取所有响应内容
+                let resData = {};
+                try {
+                    resData = JSON.parse(resText); // 尝试解析为JSON，失败则走catch
+                } catch (e) {
+                    resData.msg = resText; // 解析失败时，直接将纯文本作为错误信息
+                }
         
+                // 按状态码判断业务逻辑，兼容JSON和纯文本响应
                 if (res.status === 201) {
                     tip.className = 'tip green';
                     tip.innerText = '注册成功！跳转登录页...';
@@ -71,7 +76,7 @@
                 } else if (res.status === 500) {
                     tip.innerText = resData.msg || '服务器内部错误，请稍后再试！';
                 } else {
-                    tip.innerText = '注册失败，请重试！';
+                    tip.innerText = resData.msg || '注册失败，请重试！';
                 }
             } catch (err) {
                 console.error('注册请求异常：', err);
