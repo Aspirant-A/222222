@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 
 // KV实例名（必须和EdgeOne控制台创建的一致：user-kv）
-const KV_INSTANCE = 'user-kv';
+const KV_INSTANCE = 'user_kv';
 // 用户key前缀，避免KV数据冲突
 const USER_KEY_PREFIX = 'user_';
 
@@ -56,4 +56,5 @@ async function handleRegister(req) {
         console.error('注册接口异常：', error);
         return new Response('服务器内部错误！', { status: 500 });
     }
+
 }
