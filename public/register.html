@@ -37,32 +37,38 @@
             const tip = document.getElementById('regTip');
             tip.className = 'tip red';
             tip.innerText = '';
-
+        
             // 前端校验
             if (!username) return tip.innerText = '账号不能为空！';
             if (password.length < 6) return tip.innerText = '密码至少6位！';
-
+        
             try {
-                // 调用后端接口
+                // 修复核心：明确指定Content-Type，确保请求体格式正确
                 const res = await fetch('/api/register', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({username, password})
+                    method: 'POST', // 仅POST请求
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8' // 必须指定，与后端解析匹配
+                    },
+                    body: JSON.stringify({ username, password }) // 严格序列化为JSON字符串
                 });
-
+        
                 if (res.status === 201) {
                     tip.className = 'tip green';
                     tip.innerText = '注册成功！跳转登录页...';
                     setTimeout(() => window.location.href = '/login.html', 1200);
                 } else if (res.status === 409) {
                     tip.innerText = '账号已存在，请换一个！';
+                } else if (res.status === 405) {
+                    tip.innerText = '请求方式错误，请刷新页面重试！';
                 } else {
                     tip.innerText = '注册失败，请重试！';
                 }
             } catch (err) {
+                console.error('注册请求异常：', err);
                 tip.innerText = '网络异常，请稍后再试！';
             }
         }
     </script>
 </body>
+
 </html>
