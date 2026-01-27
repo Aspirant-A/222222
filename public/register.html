@@ -1,88 +1,80 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>用户注册</title>
-    <style>
-        * {margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif;}
-        body {background: #f5f5f5; padding: 20px;}
-        .container {width: 340px; margin: 50px auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
-        h3 {text-align: center; margin-bottom: 20px; color: #333;}
-        input {width: 100%; height: 42px; padding: 0 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; font-size: 15px;}
-        input:focus {border-color: #2f86eb; outline: none;}
-        button {width: 100%; height: 44px; background: #2f86eb; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer;}
-        button:hover {background: #2574e0;}
-        .tip {height: 18px; font-size: 13px; margin: 5px 0; text-align: center;}
-        .red {color: #f53f3f;}
-        .green {color: #00b42a;}
-        p {text-align: center; margin-top: 15px; font-size: 14px; color: #666;}
-        a {color: #2f86eb; text-decoration: none;}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h3>账号注册</h3>
-        <input type="text" id="username" placeholder="请输入注册账号" required>
-        <input type="password" id="password" placeholder="请输入6位以上密码" required minlength="6">
-        <div class="tip red" id="regTip"></div>
-        <button onclick="handleRegister()">提交注册</button>
-        <p>已有账号？<a href="/login.html">立即登录</a></p>
-    </div>
+// 用户key前缀，避免KV数据冲突
+const USER_KEY_PREFIX = 'user_';
 
-    <script>
-        async function handleRegister() {
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            const tip = document.getElementById('regTip');
-            tip.className = 'tip red';
-            tip.innerText = '';
-        
-            // 前端校验
-            if (!username) return tip.innerText = '账号不能为空！';
-            if (password.length < 6) return tip.innerText = '密码至少6位！';
-        
-            try {
-                const res = await fetch('/api/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({ username, password }),
-                    cache: 'no-cache'
-                });
-
-                // 核心修复：新增响应解析容错，先转文本再尝试解析JSON
-                const resText = await res.text(); // 先以纯文本获取所有响应内容
-                let resData = {};
-                try {
-                    resData = JSON.parse(resText); // 尝试解析为JSON，失败则走catch
-                } catch (e) {
-                    resData.msg = resText; // 解析失败时，直接将纯文本作为错误信息
-                }
-        
-                // 按状态码判断业务逻辑，兼容JSON和纯文本响应
-                if (res.status === 201) {
-                    tip.className = 'tip green';
-                    tip.innerText = '注册成功！跳转登录页...';
-                    setTimeout(() => window.location.href = '/login.html', 1200);
-                } else if (res.status === 409) {
-                    tip.innerText = resData.msg || '账号已存在，请换一个！';
-                } else if (res.status === 405) {
-                    tip.innerText = resData.msg || '请求方式错误，请刷新页面重试！';
-                } else if (res.status === 400) {
-                    tip.innerText = resData.msg || '请求参数错误，请检查！';
-                } else if (res.status === 500) {
-                    tip.innerText = resData.msg || '服务器内部错误，请稍后再试！';
-                } else {
-                    tip.innerText = resData.msg || '注册失败，请重试！';
-                }
-            } catch (err) {
-                console.error('注册请求异常：', err);
-                tip.innerText = '网络异常，请稍后再试！';
+// EdgeOne 新规则标准导出
+export async function onRequest({ request }) {
+    // 仅允许POST请求
+    if (request.method !== 'POST') {
+        return new Response(JSON.stringify({ msg: '仅支持POST请求' }), {
+            status: 405,
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Allow': 'POST'
             }
+        });
+    }
+
+    try {
+        // 解析并校验请求体
+        let requestData;
+        try {
+            requestData = await request.json();
+        } catch (e) {
+            return new Response(JSON.stringify({ msg: '请求体必须为标准JSON' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json;charset=utf-8' }
+            });
         }
-    </script>
-</body>
-</html>
+        const { username, password } = requestData || {};
+        if (!username || !password || password.length < 6) {
+            return new Response(JSON.stringify({ msg: '账号不能为空，密码至少6位' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json;charset=utf-8' }
+            });
+        }
+
+        // 拼接用户唯一Key
+        const userKey = `${USER_KEY_PREFIX}${username}`;
+        // 直接调用EdgeOne绑定的KV变量（替换为你的实际KV变量名！）
+        const existingUser = await my_kv.get(userKey);
+        
+        // 校验账号是否已存在
+        if (existingUser) {
+            return new Response(JSON.stringify({ msg: '账号已存在，请更换账号' }), {
+                status: 409,
+                headers: { 'Content-Type': 'application/json;charset=utf-8' }
+            });
+        }
+
+        // 原生Web Crypto API：密码哈希加密（无需任何依赖，EdgeOne原生支持）
+        const hashedPassword = await hashPassword(password);
+        // 写入KV存储（存储加密后的密码）
+        await my_kv.put(userKey, hashedPassword);
+
+        // 注册成功响应
+        return new Response(JSON.stringify({ msg: '注册成功，即将跳转登录页', success: true }), {
+            status: 201,
+            headers: { 'Content-Type': 'application/json;charset=utf-8' }
+        });
+
+    } catch (error) {
+        console.error('注册接口异常：', error);
+        return new Response(JSON.stringify({ msg: '服务器内部错误，请稍后再试' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json;charset=utf-8' }
+        });
+    }
+}
+
+// 密码哈希加密核心函数（Web Crypto API，原生无依赖）
+async function hashPassword(password) {
+    // 1. 将密码转为UTF-8编码的二进制数据
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    // 2. 生成SHA-256哈希值（二进制）
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    // 3. 将二进制哈希值转为十六进制字符串（便于存储和后续校验）
+    return Array.from(new Uint8Array(hash))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+}
