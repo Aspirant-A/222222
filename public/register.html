@@ -43,23 +43,33 @@
             if (password.length < 6) return tip.innerText = '密码至少6位！';
         
             try {
-                // 修复核心：明确指定Content-Type，确保请求体格式正确
                 const res = await fetch('/api/register', {
-                    method: 'POST', // 仅POST请求
+                    method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json;charset=utf-8' // 必须指定，与后端解析匹配
+                        'Content-Type': 'application/json;charset=utf-8',
+                        // 修复2：添加跨域/预检兼容头，适配EdgeOne环境
+                        'Accept': 'application/json'
                     },
-                    body: JSON.stringify({ username, password }) // 严格序列化为JSON字符串
+                    body: JSON.stringify({ username: username, password: password }),
+                    // 修复3：禁用浏览器默认缓存，强制每次请求最新接口
+                    cache: 'no-cache'
                 });
+
+                // 统一解析后端JSON响应（修复1：解决后端返回JSON时前端未解析的兼容问题）
+                const resData = await res.json();
         
                 if (res.status === 201) {
                     tip.className = 'tip green';
                     tip.innerText = '注册成功！跳转登录页...';
                     setTimeout(() => window.location.href = '/login.html', 1200);
                 } else if (res.status === 409) {
-                    tip.innerText = '账号已存在，请换一个！';
+                    tip.innerText = resData.msg || '账号已存在，请换一个！';
                 } else if (res.status === 405) {
-                    tip.innerText = '请求方式错误，请刷新页面重试！';
+                    tip.innerText = resData.msg || '请求方式错误，请刷新页面重试！';
+                } else if (res.status === 400) {
+                    tip.innerText = resData.msg || '请求参数错误，请检查！';
+                } else if (res.status === 500) {
+                    tip.innerText = resData.msg || '服务器内部错误，请稍后再试！';
                 } else {
                     tip.innerText = '注册失败，请重试！';
                 }
@@ -70,5 +80,4 @@
         }
     </script>
 </body>
-
 </html>
