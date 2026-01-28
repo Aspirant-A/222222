@@ -3,24 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>首页</title>
+    <title>讲义网站</title>
     <style>
-        * {margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif;}
-        body {background: #f5f5f5; padding: 20px;}
-        .container {width: 340px; margin: 50px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;}
-        h3 {color: #333; margin-bottom: 20px;}
-        p {font-size: 15px; color: #666; margin: 10px 0;}
-        .user {color: #2f86eb; font-weight: 600;}
-        button {margin-top: 25px; padding: 10px 20px; background: #f53f3f; color: #fff; border: none; border-radius: 4px; font-size: 14px; cursor: pointer;}
-        button:hover {background: #e03535;}
+        /* 全局样式重置 */
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        /* 右上角用户信息样式 */
+        .user-info {
+            position: fixed; /* 固定在右上角，不随滚动移动 */
+            top: 20px;
+            right: 20px;
+            padding: 8px 15px;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            font-size: 14px;
+            color: #333;
+            z-index: 999; /* 确保在最上层显示 */
+        }
+        .user-info span {
+            color: #2f86eb;
+            font-weight: 600;
+        }
+        .logout-btn {
+            margin-left: 15px;
+            padding: 4px 8px;
+            background: #f53f3f;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background: #e03535;
+        }
+
+        /* 讲义下载页面原有样式 */
+        body { 
+            font-family: Arial; 
+            margin: 50px; 
+            background: #f9f9f9;
+        }
+        .box { 
+            background: #f0f8ff; 
+            border: 2px solid #4CAF50;
+            padding: 30px;
+            margin: 20px;
+            width: 300px;
+            text-align: center;
+            display: inline-block;
+            border-radius: 10px;
+            text-decoration: none;
+            color: black;
+            transition: background 0.3s; /* 增加过渡动画更丝滑 */
+        }
+        .box:hover { 
+            background: #e6f7ff; 
+        }
+        h1 { 
+            color: #333; 
+            margin-bottom: 30px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h3>登录成功！欢迎回来</h3>
-        <p>当前登录账号：<span class="user" id="currUser"></span></p>
-        <button onclick="logout()">退出登录</button>
+    <!-- 右上角用户信息+退出按钮 -->
+    <div class="user-info" id="headerUserInfo">
+        当前登录：<span id="headerUser"></span>
+        <button class="logout-btn" onclick="logout()">退出登录</button>
     </div>
+
+    <!-- 讲义下载核心内容 -->
+    <h1>📚 讲义下载</h1>
+    
+    <a href="高一/index.html" class="box">
+        <h2>高一</h2>
+        <p>点击进入高一讲义</p>
+    </a>
+    
+    <a href="高二/index.html" class="box">
+        <h2>高二</h2>
+        <p>点击进入高二讲义</p>
+    </a>
+    
+    <a href="高三/index.html" class="box">
+        <h2>高三</h2>
+        <p>点击进入高三讲义</p>
+    </a>
 
     <script>
         // 页面加载先校验登录状态，未登录强制跳登录页
@@ -30,7 +101,8 @@
                 window.location.href = '/login.html';
                 return;
             }
-            document.getElementById('currUser').innerText = loginUser;
+            // 给右上角的用户信息赋值
+            document.getElementById('headerUser').innerText = loginUser;
         };
 
         // 退出登录：清除状态+跳转登录页
