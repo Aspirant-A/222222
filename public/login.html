@@ -1,31 +1,208 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>用户登录</title>
+    <title>Account Login | STEM Lecture Notes Portal</title>
     <style>
-        * {margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif;}
-        body {background: #f5f5f5; padding: 20px;}
-        .container {width: 340px; margin: 50px auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
-        h3 {text-align: center; margin-bottom: 20px; color: #333;}
-        input {width: 100%; height: 42px; padding: 0 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; font-size: 15px;}
-        input:focus {border-color: #2f86eb; outline: none;}
-        button {width: 100%; height: 44px; background: #2f86eb; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer;}
-        button:hover {background: #2574e0;}
-        .tip {height: 18px; font-size: 13px; margin: 5px 0; text-align: center; color: #f53f3f;}
-        p {text-align: center; margin-top: 15px; font-size: 14px; color: #666;}
-        a {color: #2f86eb; text-decoration: none;}
+        /* 全局样式重置与基础配置（和主页面统一） */
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        :root {
+            /* 数理化主题色 */
+            --math-blue: #165DFF;
+            --physics-green: #00B42A;
+            --chem-orange: #FF7D00;
+            --dark-bg: #0F172A;
+            --light-bg: #1E293B;
+            --text-white: #F8FAFC;
+            --text-gray: #94A3B8;
+            --error-red: #F53F3F;
+        }
+
+        /* 页面背景（替换为你的指定图片+渐变叠加） */
+        body { 
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif; 
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            /* 核心修改：使用你的 downloaded-image.jpg 作为背景 */
+            background: 
+                linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.85) 100%),
+                url('geometry-4165494_1920.jpg');
+            /* 背景图片适配属性 */
+            background-size: cover;    /* 覆盖整个页面 */
+            background-position: center; /* 居中显示 */
+            background-attachment: fixed; /* 滚动时背景固定 */
+            background-repeat: no-repeat; /* 不重复 */
+            color: var(--text-white);
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* 粒子背景效果（和主页面统一） */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(22, 93, 255, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 20%, rgba(0, 180, 42, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 40% 40%, rgba(255, 125, 0, 0.1) 0%, transparent 40%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 登录容器（玻璃拟态+圆角+光影+悬浮效果） */
+        .container {
+            width: 380px;
+            padding: 40px 35px;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        /* 登录框悬浮动效 */
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        /* 登录框内部发光线条装饰 */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: all 0.8s ease;
+        }
+        .container:hover::before {
+            left: 100%;
+        }
+
+        /* 登录标题（渐变文字+光影） */
+        h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--math-blue), var(--physics-green), var(--chem-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(22, 93, 255, 0.2);
+        }
+
+        /* 输入框样式（玻璃拟态+主题色边框） */
+        input {
+            width: 100%;
+            height: 50px;
+            padding: 0 15px;
+            margin: 12px 0;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 15px;
+            color: var(--text-white);
+            transition: all 0.3s ease;
+        }
+        input::placeholder {
+            color: var(--text-gray);
+        }
+        input:focus {
+            border-color: var(--math-blue);
+            outline: none;
+            box-shadow: 0 0 15px rgba(22, 93, 255, 0.2);
+            background: rgba(15, 23, 42, 0.7);
+        }
+
+        /* 登录按钮（渐变背景+悬浮动效） */
+        button {
+            width: 100%;
+            height: 52px;
+            background: linear-gradient(90deg, var(--math-blue), #0F4CD8);
+            color: var(--text-white);
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(22, 93, 255, 0.2);
+            margin-top: 10px;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #0F4CD8, var(--math-blue));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(22, 93, 255, 0.4);
+        }
+
+        /* 提示文字样式 */
+        .tip {
+            height: 20px;
+            font-size: 13px;
+            margin: 5px 0;
+            text-align: center;
+            color: var(--error-red);
+            line-height: 20px;
+        }
+
+        /* 注册链接样式 */
+        p {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+        a {
+            color: var(--math-blue);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        a:hover {
+            color: var(--physics-green);
+            text-shadow: 0 0 10px rgba(0, 180, 42, 0.3);
+        }
+
+        /* 响应式适配（移动端优化） */
+        @media (max-width: 480px) {
+            .container {
+                width: 90%;
+                padding: 30px 25px;
+            }
+            h3 {
+                font-size: 1.5em;
+            }
+            input {
+                height: 46px;
+            }
+            button {
+                height: 48px;
+            }
+        }
     </style>
+    <!-- 引入和主页面相同的现代字体 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
 </head>
 <body>
     <div class="container">
-        <h3>账号登录</h3>
-        <input type="text" id="username" placeholder="请输入账号" required>
-        <input type="password" id="password" placeholder="请输入密码" required>
+        <h3>Account Login</h3>
+        <input type="text" id="username" placeholder="Please enter your username" required>
+        <input type="password" id="password" placeholder="Please enter your password" required>
         <div class="tip" id="loginTip"></div>
-        <button onclick="handleLogin()">立即登录</button>
-        <p>没有账号？<a href="/register.html">去注册</a></p>
+        <button onclick="handleLogin()">Login Now</button>
+        <p>Don't have an account? <a href="/register.html">Register</a></p>
     </div>
 
     <script>
@@ -36,7 +213,7 @@
             tip.innerText = '';
 
             // 前端校验
-            if (!username || !password) return tip.innerText = '账号密码不能为空！';
+            if (!username || !password) return tip.innerText = 'Username and password cannot be empty!';
 
             try {
                 // 调用后端接口
@@ -52,14 +229,14 @@
                     localStorage.setItem('loginUser', data.username);
                     window.location.href = '/index.html';
                 } else if (res.status === 404) {
-                    tip.innerText = '该账号未注册！';
+                    tip.innerText = 'This account is not registered!';
                 } else if (res.status === 401) {
-                    tip.innerText = '账号或密码错误！';
+                    tip.innerText = 'Incorrect username or password!';
                 } else {
-                    tip.innerText = '登录失败，请重试！';
+                    tip.innerText = 'Login failed, please try again!';
                 }
             } catch (err) {
-                tip.innerText = '网络异常，请稍后再试！';
+                tip.innerText = 'Network error, please try again later!';
             }
         }
     </script>
