@@ -1,295 +1,245 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lecture Notes Download </title>
+    <title>Grade 10 Lecture Notes</title>
     <style>
-        /* 全局样式重置与基础配置 */
-        * {margin: 0; padding: 0; box-sizing: border-box;}
-        :root {
-            /* 数理化主题色 */
-            --math-blue: #165DFF;
-            --physics-green: #00B42A;
-            --chem-orange: #FF7D00;
-            --dark-bg: #0F172A;
-            --light-bg: #1E293B;
-            --text-white: #F8FAFC;
-            --text-gray: #94A3B8;
-        }
-
-        /* 页面背景（替换为图片+叠加渐变+暗黑模式） */
-        body { 
-            font-family: 'Inter', 'Segoe UI', Arial, sans-serif; 
-            min-height: 100vh;
-            margin: 0;
-            padding: 50px 20px;
-            /* 核心修改：使用背景图片，同时保留渐变叠加保证文字可读性 */
-            background: 
-                linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.85) 100%),
-                url('geometry-4165494_1920.jpg');
-            /* 背景图片适配属性 */
-            background-size: cover;    /* 覆盖整个页面 */
-            background-position: center; /* 居中显示 */
-            background-attachment: fixed; /* 滚动时背景固定 */
-            background-repeat: no-repeat; /* 不重复 */
-            color: var(--text-white);
-            position: relative;
-            overflow-x: hidden;
-        }
-        /* 伪元素保留粒子背景效果（叠加在图片上） */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 80%, rgba(22, 93, 255, 0.1) 0%, transparent 40%),
-                        radial-gradient(circle at 80% 20%, rgba(0, 180, 42, 0.1) 0%, transparent 40%),
-                        radial-gradient(circle at 40% 40%, rgba(255, 125, 0, 0.1) 0%, transparent 40%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* 右上角用户信息（玻璃拟态+悬浮特效） */
-        .user-info {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            font-size: 14px;
-            color: var(--text-white);
-            z-index: 999;
-            transition: all 0.3s ease;
-        }
-        .user-info:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-        .user-info span {
-            color: var(--math-blue);
-            font-weight: 600;
-            font-size: 15px;
-        }
-        .logout-btn {
-            margin-left: 15px;
-            padding: 6px 12px;
-            background: linear-gradient(90deg, #FF4757, #FF3838);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.2);
-        }
-        .logout-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
-            background: linear-gradient(90deg, #FF3838, #FF2B2B);
-        }
-
-        /* 标题样式（渐变文字+光影+悬浮动效） */
-        .main-title {
-            text-align: center;
-            margin: 40px 0 60px;
-            font-size: 3em;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--math-blue), var(--physics-green), var(--chem-orange));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 20px rgba(22, 93, 255, 0.3);
-            position: relative;
-            transition: all 0.5s ease;
-        }
-        .main-title:hover {
-            text-shadow: 0 0 30px rgba(22, 93, 255, 0.5), 0 0 60px rgba(0, 180, 42, 0.3);
-            transform: scale(1.02);
-        }
-        .main-title::after {
-            content: '&#128218;';
-            position: absolute;
-            top: -10px;
-            right: 50%;
-            transform: translateX(50%);
-            font-size: 1.2em;
-            opacity: 0.5;
-            filter: blur(2px);
-        }
-
-        /* 年级卡片容器（居中+自适应） */
-        .card-container {
+        body { font-family: Arial; margin: 40px; }
+        .back { margin-bottom: 20px; }
+        
+        /* 科目选择按钮样式 */
+        .subject-nav {
             display: flex;
+            gap: 15px;
+            margin: 20px 0;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
         }
-
-        /* 核心：炫酷的年级卡片样式（3D+渐变+光影+多态动效） */
-        .grade-card {
-            width: 350px;
-            padding: 45px 30px;
-            border-radius: 20px;
+        .subject-btn {
+            background: #6c5ce7;
+            color: white;
+            padding: 12px 24px;
             text-decoration: none;
-            color: var(--text-white);
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        .subject-btn:hover {
+            background: #5b4bd8;
+            transform: translateY(-2px);
+        }
+        .subject-btn.active {
+            background: #4CAF50;
+            border-color: #388E3C;
+        }
+        
+        /* 文件列表样式 */
+        .file-item { 
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .preview-btn {
+            background: #2196F3;
+            color: white;
+            padding: 6px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+        .download-dropdown {
             position: relative;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-style: preserve-3d;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            display: inline-block;
         }
-        /* 不同年级卡片专属渐变+标识 */
-        .grade-card.grade10 {
-            background: linear-gradient(135deg, rgba(22, 93, 255, 0.2) 0%, rgba(22, 93, 255, 0.4) 100%);
-            border: 1px solid rgba(22, 93, 255, 0.3);
+        .download-main-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 6px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
         }
-        .grade-card.grade11 {
-            background: linear-gradient(135deg, rgba(0, 180, 42, 0.2) 0%, rgba(0, 180, 42, 0.4) 100%);
-            border: 1px solid rgba(0, 180, 42, 0.3);
-        }
-        .grade-card.grade12 {
-            background: linear-gradient(135deg, rgba(255, 125, 0, 0.2) 0%, rgba(255, 125, 0, 0.4) 100%);
-            border: 1px solid rgba(255, 125, 0, 0.3);
-        }
-        /* 卡片悬浮特效（3D旋转+放大+光影强化） */
-        .grade-card:hover {
-            transform: translateY(-15px) rotateX(5deg) rotateY(5deg) scale(1.05);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 
-                        0 0 40px rgba(22, 93, 255, 0.3) inset;
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-        /* 卡片内部发光线条装饰 */
-        .grade-card::before {
-            content: '';
+        .download-options {
+            display: none;
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: all 0.8s ease;
+            background: white;
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            z-index: 1;
+            top: 100%;
+            left: 0;
+            margin-top: 5px;
         }
-        .grade-card:hover::before {
-            left: 100%;
+        .download-options a {
+            color: #333;
+            padding: 8px 12px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #eee;
         }
-
-        /* 卡片内文字样式 */
-        .grade-card h2 {
-            font-size: 2.2em;
-            margin-bottom: 15px;
-            font-weight: 700;
-            position: relative;
-            z-index: 2;
+        .download-options a:hover {
+            background: #f5f5f5;
         }
-        .grade-card p {
-            color: var(--text-gray);
-            font-size: 1.1em;
-            line-height: 1.6;
-            position: relative;
-            z-index: 2;
-            transition: color 0.3s ease;
+        .download-dropdown:hover .download-options {
+            display: block;
         }
-        .grade-card:hover p {
-            color: var(--text-white);
+        .button-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
-        /* 卡片学科图标（放大+发光） */
-        .grade-card .subject-icon {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            opacity: 0.7;
-            transition: all 0.3s ease;
+        .file-info {
+            display: flex;
+            flex-direction: column;
         }
-        .grade-card:hover .subject-icon {
-            opacity: 1;
-            transform: scale(1.2);
-            text-shadow: 0 0 15px currentColor;
+        .file-available {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
         }
-        .grade10 .subject-icon { color: var(--math-blue); }
-        .grade11 .subject-icon { color: var(--physics-green); }
-        .grade12 .subject-icon { color: var(--chem-orange); }
-
-        /* 响应式适配（移动端优化） */
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 2em;
-            }
-            .grade-card {
-                width: 90%;
-                padding: 35px 25px;
-            }
-            .grade-card:hover {
-                transform: translateY(-10px) rotateX(3deg) rotateY(3deg) scale(1.02);
-            }
-            .user-info {
-                padding: 8px 15px;
-                font-size: 13px;
-            }
+        
+        /* 科目内容区域 */
+        .subject-content {
+            display: none;
+            margin-top: 20px;
+        }
+        .subject-content.active {
+            display: block;
         }
     </style>
-    <!-- 引入现代字体（增强视觉效果） -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
 </head>
 <body>
-    <!-- 右上角玻璃拟态用户信息栏 -->
-    <div class="user-info" id="headerUserInfo">
-        Logged in as: <span id="headerUser"></span>
-        <button class="logout-btn" onclick="logout()">Logout</button>
+    <div class="back">
+        <a href="../index.html">&#8592; Back to Homepage</a>
     </div>
-
-    <!-- 渐变发光主标题 -->
-    <h1 class="main-title">Lecture Notes </h1>
-
-    <!-- 年级卡片容器 -->
-    <div class="card-container">
-        <!-- Grade 10 卡片 -->
-        <a href="Grade 10/index.html" class="grade-card grade10">
-            <div class="subject-icon">&#128288;</div>
-            <h2>Grade 10</h2>
-            <p>Explore Math, Physics and Chemistry  for 10th Grade.</p>
+    
+    <h1>&#128216; Grade 10 Lecture Notes</h1>
+    
+    <!-- 科目选择导航 -->
+    <h3>Select Subject:</h3>
+    <div class="subject-nav">
+        <a href="javascript:void(0)" class="subject-btn active" onclick="showSubject('math')">
+            &#128288; Mathematics
         </a>
-
-        <!-- Grade 11 卡片 -->
-        <a href="Grade 11/index.html" class="grade-card grade11">
-            <div class="subject-icon">&#128237;</div>
-            <h2>Grade 11</h2>
-            <p>Explore Math, Physics and Chemistry  for 11th Grade.</p>
+        <a href="javascript:void(0)" class="subject-btn" onclick="showSubject('physics')">
+            &#128237; Physics
         </a>
-
-        <!-- Grade 12 卡片 -->
-        <a href="Grade 12/index.html" class="grade-card grade12">
-            <div class="subject-icon">&#129502;</div>
-            <h2>Grade 12</h2>
-            <p>Explore Math, Physics and Chemistry  for 12th Grade.</p>
+        <a href="javascript:void(0)" class="subject-btn" onclick="showSubject('chemistry')">
+            &#129502; Chemistry
         </a>
     </div>
-
+    
+    <!-- 数学科目内容 -->
+    <div id="math" class="subject-content active">
+        <h2>&#128218; Mathematics Lecture Notes</h2>
+        <div class="file-list">
+            <div class="file-item">
+                <div class="file-info">
+                    <span>&#128196; FinalExamPaper-Zhengzhou-2025</span>
+                    <div class="file-available">Available Formats: PDF | TEX</div>
+                </div>
+                <div class="button-group">
+                    <a href="Mathematics/pdf/FinalExamPaper-Zhengzhou-2025.pdf" target="_blank" class="preview-btn">Preview PDF</a>
+                    <div class="download-dropdown">
+                        <button class="download-main-btn">Download &#9660;</button>
+                        <div class="download-options">
+                            <a href="Mathematics/pdf/FinalExamPaper-Zhengzhou-2025.pdf" download>PDF File</a>
+                            <a href="Mathematics/tex/FinalExamPaper-Zhengzhou-2025.tex" download>TEX Source File</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 物理科目内容 -->
+    <div id="physics" class="subject-content">
+        <h2>&#128218; Physics Lecture Notes</h2>
+        <div class="file-list">
+            <div class="file-item">
+                <div class="file-info">
+                    <span>&#128196; Fundamentals of Mechanics</span>
+                    <div class="file-available">Available Formats: PDF | TEX</div>
+                </div>
+                <div class="button-group">
+                    <a href="pdf/Fundamentals of Mechanics.pdf" target="_blank" class="preview-btn">Preview PDF</a>
+                    <div class="download-dropdown">
+                        <button class="download-main-btn">Download &#9660;</button>
+                        <div class="download-options">
+                            <a href="pdf/Fundamentals of Mechanics.pdf" download>PDF File</a>
+                            <a href="tex/Fundamentals of Mechanics.tex" download>TEX Source File</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 化学科目内容 -->
+    <div id="chemistry" class="subject-content">
+        <h2>&#128218; Chemistry Lecture Notes</h2>
+        <div class="file-list">
+            <div class="file-item">
+                <div class="file-info">
+                    <span>&#128196; Fundamentals of Organic Chemistry</span>
+                    <div class="file-available">Available Formats: PDF | TEX</div>
+                </div>
+                <div class="button-group">
+                    <a href="pdf/Fundamentals of Organic Chemistry.pdf" target="_blank" class="preview-btn">Preview PDF</a>
+                    <div class="download-dropdown">
+                        <button class="download-main-btn">Download &#9660;</button>
+                        <div class="download-options">
+                            <a href="pdf/Fundamentals of Organic Chemistry.pdf" download>PDF File</a>
+                            <a href="tex/Fundamentals of Organic Chemistry.tex" download>TEX Source File</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript代码 -->
     <script>
-        // 页面加载先校验登录状态，未登录强制跳登录页
-        window.onload = () => {
-            const loginUser = localStorage.getItem('loginUser');
-            if (!loginUser) {
-                window.location.href = '/login.html';
-                return;
+        // 显示选中的科目
+        function showSubject(subjectId) {
+            // 隐藏所有科目内容
+            var contents = document.getElementsByClassName('subject-content');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
             }
-            document.getElementById('headerUser').innerText = loginUser;
-        };
-
-        // 退出登录（提示语改为英文）
-        function logout() {
-            localStorage.removeItem('loginUser');
-            alert('Logged out successfully!');
-            window.location.href = '/login.html';
+            
+            // 显示选中的科目内容
+            document.getElementById(subjectId).classList.add('active');
+            
+            // 更新按钮状态
+            var buttons = document.getElementsByClassName('subject-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            
+            // 设置当前按钮为活跃状态
+            event.target.classList.add('active');
         }
+        
+        // 页面加载时默认显示数学
+        window.onload = function() {
+            showSubject('math');
+        };
     </script>
+    
+    <p style="margin-top: 30px; color: #666;">
+        &#128161; Usage Instructions:<br>
+        1. Click subject buttons to switch between different subjects' lecture notes<br>
+        2. PDF files are stored in: <code>Grade 10/[Selected Subject]/pdf/</code> folder<br>
+        3. TEX files are stored in: <code>Grade 10/[Selected Subject]/tex/</code> folder<br>
+        4. Click "Preview PDF" to view in a new window, click "Download" to select format
+    </p>
 </body>
 </html>
