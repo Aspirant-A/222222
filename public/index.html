@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en"> <!-- 语言改为英文 -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>讲义网站</title>
+    <title>Lecture Notes Website</title> <!-- 标题改为英文 -->
     <style>
         /* 全局样式重置 */
         * {margin: 0; padding: 0; box-sizing: border-box;}
         
         /* 右上角用户信息样式 */
         .user-info {
-            position: fixed; /* 固定在右上角，不随滚动移动 */
+            position: fixed;
             top: 20px;
             right: 20px;
             padding: 8px 15px;
@@ -19,7 +19,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             font-size: 14px;
             color: #333;
-            z-index: 999; /* 确保在最上层显示 */
+            z-index: 999;
         }
         .user-info span {
             color: #2f86eb;
@@ -56,7 +56,7 @@
             border-radius: 10px;
             text-decoration: none;
             color: black;
-            transition: background 0.3s; /* 增加过渡动画更丝滑 */
+            transition: background 0.3s;
         }
         .box:hover { 
             background: #e6f7ff; 
@@ -69,28 +69,28 @@
     </style>
 </head>
 <body>
-    <!-- 右上角用户信息+退出按钮 -->
+    <!-- 右上角用户信息+退出按钮（英文） -->
     <div class="user-info" id="headerUserInfo">
-        当前登录：<span id="headerUser"></span>
-        <button class="logout-btn" onclick="logout()">退出登录</button>
+        Logged in as: <span id="headerUser"></span>
+        <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
 
-    <!-- 讲义下载核心内容 -->
-    <h1>📚 讲义下载</h1>
+    <!-- 讲义下载核心内容（英文） -->
+    <h1>📚 Lecture Notes Download</h1>
     
-    <a href="高一/index.html" class="box">
-        <h2>高一</h2>
-        <p>点击进入高一讲义</p>
+    <a href="Grade 10/index.html" class="box">
+        <h2>Grade 10</h2>
+        <p>Click to access Grade 10 lecture notes</p>
     </a>
     
-    <a href="高二/index.html" class="box">
-        <h2>高二</h2>
-        <p>点击进入高二讲义</p>
+    <a href="Grade 11/index.html" class="box">
+        <h2>Grade 11</h2>
+        <p>Click to access Grade 11 lecture notes</p>
     </a>
-    
-    <a href="高三/index.html" class="box">
-        <h2>高三</h2>
-        <p>点击进入高三讲义</p>
+
+    <a href="Grade 12/index.html" class="box">
+        <h2>Grade 12</h2>
+        <p>Click to access Grade 12 lecture notes</p>
     </a>
 
     <script>
@@ -101,14 +101,13 @@
                 window.location.href = '/login.html';
                 return;
             }
-            // 给右上角的用户信息赋值
             document.getElementById('headerUser').innerText = loginUser;
         };
 
-        // 退出登录：清除状态+跳转登录页
+        // 退出登录（提示语改为英文）
         function logout() {
             localStorage.removeItem('loginUser');
-            alert('已成功退出登录！');
+            alert('Logged out successfully!');
             window.location.href = '/login.html';
         }
     </script>
