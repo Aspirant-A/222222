@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>高三年级讲义</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        .back { margin-bottom: 20px; }
+        
+        /* 科目选择按钮样式 */
+        .subject-nav {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .subject-btn {
+            background: #6c5ce7;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        .subject-btn:hover {
+            background: #5b4bd8;
+            transform: translateY(-2px);
+        }
+        .subject-btn.active {
+            background: #4CAF50;
+            border-color: #388E3C;
+        }
+        
+        /* 文件列表样式 */
+        .file-item { 
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .preview-btn {
+            background: #2196F3;
+            color: white;
+            padding: 6px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+        .download-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .download-main-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 6px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .download-options {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            z-index: 1;
+            top: 100%;
+            left: 0;
+            margin-top: 5px;
+        }
+        .download-options a {
+            color: #333;
+            padding: 8px 12px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #eee;
+        }
+        .download-options a:hover {
+            background: #f5f5f5;
+        }
+        .download-dropdown:hover .download-options {
+            display: block;
+        }
+        .button-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .file-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .file-available {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        /* 科目内容区域 */
+        .subject-content {
+            display: none;
+            margin-top: 20px;
+        }
+        .subject-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="back">
+        <a href="../index.html">← 返回首页</a>
+    </div>
+    
+    <h1>📘 高三年级讲义</h1>
+    
+    <!-- 科目选择导航 -->
+    <h3>选择科目：</h3>
+    <div class="subject-nav">
+        <a href="javascript:void(0)" class="subject-btn active" onclick="showSubject('math')">
+            📐 数学
+        </a>
+        <a href="javascript:void(0)" class="subject-btn" onclick="showSubject('physics')">
+            🔭 物理
+        </a>
+        <a href="javascript:void(0)" class="subject-btn" onclick="showSubject('chemistry')">
+            🧪 化学
+        </a>
+       
+    </div>
+    
+    <!-- 数学科目内容 -->
+    <div id="math" class="subject-content active">
+        <h2>📚 数学讲义</h2>
+        <div class="file-list">
+            <div class="file-item">
+                <div class="file-info">
+                    <span>📄 FinalExamPaper-Zhengzhou-2025</span>
+                    <div class="file-available">可用格式: PDF | TEX</div>
+                </div>
+                <div class="button-group">
+                    <a href="数学/pdf/FinalExamPaper-Zhengzhou-2025.pdf" target="_blank" class="preview-btn">预览PDF</a>
+                    <div class="download-dropdown">
+                        <button class="download-main-btn">下载 ▼</button>
+                        <div class="download-options">
+                            <a href="数学/pdf/FinalExamPaper-Zhengzhou-2025.pdf" download>PDF文件</a>
+                            <a href="数学/tex/FinalExamPaper-Zhengzhou-2025.tex" download>TEX源文件</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 可以在这里添加更多数学文件 -->
+        </div>
+    </div>
+    
+    <!-- 物理科目内容 -->
+    <div id="physics" class="subject-content">
+        <h2>🔭 物理讲义</h2>
+        <div class="file-list">
+            <div class="file-item">
+                <div class="file-info">
+                    <span>📄 力学基础</span>
+                    <div class="file-available">可用格式: PDF | TEX</div>
+                </div>
+                <div class="button-group">
+                    <a href="pdf/力学基础.pdf" target="_blank" class="preview-btn">预览PDF</a>
+                    <div class="download-dropdown">
+                        <button class="download-main-btn">下载 ▼</button>
+                        <div class="download-options">
+                            <a href="pdf/力学基础.pdf" download>PDF文件</a>
+                            <a href="tex/力学基础.tex" download>TEX源文件</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 可以在这里添加更多物理文件 -->
+        </div>
+    </div>
+    
+    <!-- 化学科目内容 -->
+    <div id="chemistry" class="subject-content">
+        <h2>🧪 化学讲义</h2>
+        <div class="file-list">
+            <div class="file-item">
+                <div class="file-info">
+                    <span>📄 有机化学基础</span>
+                    <div class="file-available">可用格式: PDF | TEX</div>
+                </div>
+                <div class="button-group">
+                    <a href="pdf/有机化学基础.pdf" target="_blank" class="preview-btn">预览PDF</a>
+                    <div class="download-dropdown">
+                        <button class="download-main-btn">下载 ▼</button>
+                        <div class="download-options">
+                            <a href="pdf/有机化学基础.pdf" download>PDF文件</a>
+                            <a href="tex/有机化学基础.tex" download>TEX源文件</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 可以在这里添加更多化学文件 -->
+        </div>
+    </div>
+    
+   
+    
+    <!-- JavaScript代码 -->
+    <script>
+        // 显示选中的科目
+        function showSubject(subjectId) {
+            // 隐藏所有科目内容
+            var contents = document.getElementsByClassName('subject-content');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+            
+            // 显示选中的科目内容
+            document.getElementById(subjectId).classList.add('active');
+            
+            // 更新按钮状态
+            var buttons = document.getElementsByClassName('subject-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            
+            // 设置当前按钮为活跃状态
+            event.target.classList.add('active');
+        }
+        
+        // 页面加载时默认显示数学
+        window.onload = function() {
+            showSubject('math');
+        };
+    </script>
+    
+    <p style="margin-top: 30px; color: #666;">
+        💡 使用说明：<br>
+        1. 点击科目按钮切换不同科目的讲义<br>
+        2. PDF文件放在：<code>高一/可选科目/pdf/</code> 文件夹<br>
+        3. TEX文件放在：<code>高一/可选科目/tex/</code> 文件夹<br>
+        4. 点击"预览PDF"在新窗口查看，点击"下载"选择格式
+    </p>
+</body>
+</html>

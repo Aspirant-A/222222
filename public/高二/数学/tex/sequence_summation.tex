@@ -1,0 +1,610 @@
+\documentclass[a4paper]{ctexart}
+
+\newcommand{\workingDate}{\textsc{2026 $|$ January $|$ 08}}
+\newcommand{\userName}{JINGANG ZHAO}
+\newcommand{\institution}{HENAN MEDICAL UNIVERSITY}
+\newcommand{\diaryTitle}{NoteBooks} 
+
+\usepackage{../assets/styles/handout_base}        % Core packages and basic theorems
+\usepackage{../assets/styles/handout_choices}
+\usepackage{../assets/styles/handout_question}    % Custom commands
+\usepackage{etoolbox}   % 提供 toggle 机制
+\everymath{\displaystyle}
+
+\newif\ifshowanswer
+\showanswerfalse  % 默认不显示答案
+
+% 接收命令行参数
+\ifdefined\showanswerFlag
+  \ifnum\showanswerFlag=1
+    \showanswertrue
+  \fi
+\fi
+% ========== 草稿模式附加配置 ==========
+\ifshowanswer
+    \handoutsetup{
+    fillin={
+        width       = 4em,
+        no-answer-type = none,
+    },
+    choices={
+        top-sep     = 0.25em,
+        bottom-sep  = 0.25em,
+        linesep     = 1em,
+    },
+    solution={
+        blank-type = manual,
+        blank-vsep=10em
+    },
+}
+
+\else
+    \handoutsetup{
+    fillin={
+        width       = 4em,
+        no-answer-type = none,
+    },
+    choices={
+        top-sep     = 0.25em,
+        bottom-sep  = 0.25em,
+        linesep     = 1em,
+    },
+    solution={
+        blank-type = none,
+    },
+}
+\fi
+
+\begin{document}
+\href{run:sequence_summation.tex}{\Huge January 8} 
+
+\section{裂项相消法}
+
+\begin{question}
+记等差数列 $\{a_{n}\}$ 的前 $n$ 项和为 $S_{n}$，且 $S_{2} = 2, S_{6} = 12$，记 $T_{n}$ 为 $\left\{\frac{1}{S_n}\right\}$ 的前 $n$ 项和，则 $T_{8} = $\paren
+\begin{choices}
+\item $\frac{9}{5}$
+\item $\frac{116}{45}$
+\item $\frac{14}{5}$
+\item $\frac{232}{5}$
+\end{choices}
+\end{question}
+
+\begin{question}
+已知数列 $\{a_{n}\}$ 满足: $a_{1} = 1, a_{2} = 3, a_{n+2} + a_{n} = 2a_{n+1} + 1$, 数列 $\{b_{n}\}$ 满足 $2a_{n} \cdot b_{n} = 1$, 则数列 $\{b_{n}\}$ 的前 50 项的和为 \paren
+\begin{choices}
+\item $\frac{50}{51}$
+\item $\frac{1}{50}$
+\item $\frac{50}{101}$
+\item 50
+\end{choices}
+\end{question}
+
+\begin{question}
+在数列 $\{a_{n}\}$ 中， $a_{1} = 2$，且 $a_{n+1}^{2} - a_{n}^{2} = 2a_{n+1} - 2a_{n} + n + 1$，则数列 $\left\{\frac{1}{(a_{n} - 1)^{2}}\right\}$ 的前 2025 项和为\paren
+\begin{choices}
+\item $\frac{2025}{2026}$
+\item $\frac{2025}{1013}$
+\item $\frac{2026}{2025}$
+\item $\frac{2025}{1012}$
+\end{choices}
+\end{question}
+
+\begin{question}
+已知数列 $\{a_{n}\}$ 满足 $a_{1} + 2a_{2} + \dots + 2^{n - 1}a_{n} = n \cdot 2^{n}$, 数列 $\{a_{n}\}$ 的前 $n$ 项和为 $S_{n}$, 则\paren
+\begin{choices}
+\item $a_{5} = 6$
+\item 数列 $\left\{a_{n}\right\}$ 是等比数列
+\item $S_{4}, S_{8}, S_{12}$ 构成等差数列
+\item 数列 $\left\{\frac{1}{a_{n} \cdot a_{n+1}}\right\}$ 前 200 项和为 $\frac{50}{101}$
+\end{choices}
+\end{question}
+
+\begin{question}
+若等差数列 $\left\{a_{n}\right\}$ 的前 $n$ 项和为 $S_{n}, a_{2} = 4, S_{7} = 42$，则下列说法正确的是\paren
+\begin{choices}
+\item $a_{6} = 7$
+\item $\{a_{n} + n\}$ 为递增数列
+\item $S_{n} = \frac{1}{2} n^{2} + \frac{5}{2} n$
+\item $\left\{\frac{1}{a_{n} a_{n + 1}}\right\}$ 的前4项和为 $\frac{5}{21}$
+\end{choices}
+\end{question}
+
+\begin{question}
+设数列 $\{a_{n}\}$ 的前 $n$ 项和为 $S_{n}$, 若 $a_{n} = \cos \left(n - \frac{1}{2}\right)^{\circ} \sin \left(\frac{1}{2}\right)^{\circ}$, 则 $S_{90} = $\fillin。
+\end{question}
+
+\begin{question}
+已知函数 $f(x) = x^{2} + 3x$，数列 $\{a_{n}\}$ 的前 $n$ 项和为 $f(n)$，记数列 $\left\{\frac{2}{a_n f'\left(\frac{n}{2}\right)}\right\}$ 的前 $n$ 项和为 $T_{n}$，则使得 $T_{n} > \frac{11}{36}$ 成立的 $n$ 的最小值为 \fillin。
+\end{question}
+
+\begin{question}
+已知数列 $\{a_{n}\}$ 满足 $a_{1} + 2a_{2} + \dots + 2^{n - 1}a_{n} = n \cdot 2^{n}$, 且数列 $\left\{\frac{1}{a_{n} \cdot a_{n + 1}}\right\}$ 的前 $n$ 项和为 $S_{n}$, 则 $S_{20} =$ \fillin。
+\end{question}
+\pagebreak
+
+\begin{problem}
+在正项数列 $\{a_{n}\}$ 中, $a_{1} = 1$, 且 $a_{n+1}^{2} - 2a_{n+1} = a_{n}^{2} + 2a_{n}$.
+\begin{enumerate}
+\item 求 $\{a_{n}\}$ 的通项公式；
+\item 若数列 $\{b_n\}$ 满足 $b_{n} = \frac{1}{a_{n} \cdot a_{n + 1}}$，求 $\{b_{n}\}$ 的前 $n$ 项和 $S_{n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知数列 $\{a_{n}\}$ 的前 $n$ 项和为 $S_{n}, a_{3} = 8, a_{3} = n(a_{n + 1} - 1)$.
+\begin{enumerate}
+\item 证明: $\left\{\frac{a_n + 1}{n}\right\}$ 是常数列;
+\item 设 $b_{n} = \frac{1}{3S_{n} - 1}$，求数列 $\{b_n\}$ 的前 $n$ 项和.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+
+\begin{solution}
+dafhblhhisdfskl,.abgvfjilbnfslzxbnuilhasnbdfuihlnilugdfsabnliubgf
+\end{solution}
+
+
+\begin{problem}
+已知正项数列 $\{a_{n}\}$ 满足 $a_1 = 1, a_{n+1} - a_n = 2n + 1$.
+\begin{enumerate}
+\item 求 $\{a_{n}\}$ 的通项公式；
+\item 求 $\left\{\frac{\sqrt{a_{n+2}} - \sqrt{a_{n+1}}}{\sqrt{a_{n+1}a_{n+2}}}\right\}$ 的前 $n$ 项和 $S_{n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+若等比数列 $\{a_{n}\}$ 的各项均大于 1, 其前 $n$ 项和为 $S_{n}$, 且 $a_{2} = 4$, $S_{3} = 14$,
+\begin{enumerate}
+\item 求数列 $\{a_n\}$ 的通项公式；
+\item 设 $b_{n} = \sum_{k=1}^{n} \log_{2} a_{k}$，求数列 $\left\{\frac{1}{b_{n}}\right\}$ 的前 $n$ 项和 $T_{n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知数列 $\{a_{n}\}$ 的前 $n$ 项和为 $S_{n}$, 满足 $a_{1} = \frac{1}{2}, n^{2}a_{n} = S_{n}$.
+\begin{enumerate}
+\item 求数列 $\{a_n\}$ 的通项公式；
+\item 若 $b_{n} = a_{n + 1}$, 且数列 $\{b_n\}$ 的前 $n$ 项和为 $T_{n}$, 求证: $T_{n} < \frac{1}{2}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知等差数列 $\{a_{n}\}$ 的公差 $d > 0$，前 $n$ 项和为 $S_{n}$，且 $S_{5} = 15, a_{1}, a_{3}, a_{9}$ 成等比数列。
+\begin{enumerate}
+\item 求数列 $\{a_n\}$ 的通项公式；
+\item 证明: $\frac{1}{S_1} + \frac{1}{S_2} + \dots + \frac{1}{S_n} < 2 (n \in N^*)$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\section{错位相减法}
+
+\begin{question}
+已知数列 $\{a_{n}\}$ 的前 $n$ 项和为 $S_{n}$, 若 $a_{1} = 1$, $a_{n+1} = \left(\frac{1}{3n} - \frac{2}{3}\right) S_{n}$, 则 $\sum_{i=1}^{100} S_{i} = $\paren
+\begin{choices}
+\item $\frac{3}{2} -\frac{203}{2\times 3^{100}}$
+\item $\frac{9}{4} - \frac{197}{4 \times 3^{99}}$
+\item $\frac{9}{4} -\frac{203}{4\times 3^{99}}$
+\item $\frac{9}{4} - \frac{203}{4 \times 3^{100}}$
+\end{choices}
+\end{question}
+
+\begin{question}
+ $19 \times \frac{1}{2} + 17 \times \frac{1}{2^{2}} + 15 \times \frac{1}{2^{3}} + \dots + 1 \times \frac{1}{2^{10}} = $\paren
+\begin{choices}
+\item $18 + \frac{3}{2^{11}}$
+\item $17 + \frac{3}{2^{11}}$
+\item $18 + \frac{3}{2^{10}}$
+\item $17 + \frac{3}{2^{10}}$
+\end{choices}
+\end{question}
+
+\begin{question}
+在数列 $\{a_{n}\}$ 中, 若 $a_{1} = 2$, 且对任意 $n \in N^{*}$ 有 $\frac{a_{n+1}}{a_{n}} = 2 + \frac{2}{n}$, 则数列 $\{a_{n}\}$ 的前 30 项和为 \paren
+\begin{choices}
+\item $30 \times 2^{31} + 2$
+\item $31 \times 2^{31} + 2$
+\item $29 \times 2^{30} + 2$
+\item $29 \times 2^{31} + 2$
+\end{choices}
+\end{question}
+
+\begin{question}
+已知数列 $\{a_{n}\}$ 的通项公式为 $a_{n} = \frac{n}{2^{n}}$，则数列 $\{a_{n}\}$ 的前 $n$ 项和 $S_{n} =$ \paren
+\begin{choices}
+\item $\frac{2^{n} - n - 1}{2^{n}}$
+\item $\frac{2^{n+1} - n - 2}{2^n}$
+\item $\frac{2^{n} - n + 1}{2^{n}}$
+\item $\frac{2^{n+1} - n + 2}{2^n}$
+\end{choices}
+\end{question}
+
+\begin{question}
+已知数列 $\{a_{n}\}$ 的前 $n$ 项和为 $S_{n}$, 且满足 $a_{1} + 2a_{2} + \dots + 2^{n - 1}a_{n} = \frac{n^{2} + n}{2} (n \in \mathbb{N}^{*})$, 则 \paren
+\begin{choices}
+\item $a_{1} = 1$
+\item $a_{n} = \frac{n + 1}{2^{n}}$
+\item $\left\{a_{n}\right\}$ 为递减数列
+\item $S_{n} = 4 - \frac{n + 2}{2^{n - 1}}$
+\end{choices}
+\end{question}
+
+\begin{question}
+记 $S_{n}$ 为数列 $\{a_{n}\}$ 的前 $n$ 项和， $S_{n} = 2a_{n} + 1$ ，则\paren
+\begin{choices}
+\item $a_{1} = -1$
+\item $a_{n}< a_{n+1}$
+\item 数列 $\left\{\frac{1}{a_{n}}\right\}$ 为等比数列
+\item 数列 $\left\{\frac{n}{a_{n}}\right\}$ 的前 $n$ 项和为 $T_{n}$, 则 $T_{n} > -4$
+\end{choices}
+\end{question}
+
+\begin{question}
+若 $1 \times 2 + 2 \times 2^{2} + 3 \times 2^{3} + \dots + 99 \times 2^{99} = A \times 2^{100} + B$, 则 $A + B =$ \fillin。
+\end{question}
+
+\begin{question}
+已知数列 $\{a_{n}\}$ 的前 $n$ 项和为 $S_{n}$, 且点 $(a_{n}, S_{n})$ 总在直线 $y = 2x - 1$ 上, 则数列 $\{n \cdot a_{n}\}$ 的前 9 项和 $T_{9} =$ \fillin。
+\end{question}
+
+\begin{problem}
+已知数列 $\{a_{n}\}, a_{1} = 16, a_{n} = 4a_{n - 1} + 3 \cdot 4^{n}, (n \geqslant 2)$ . 令 $b_{n} = \frac{a_{n}}{4^{n}}$,
+\begin{enumerate}
+\item 证明数列 $\{b_n\}$ 是等差数列，并求出通项公式；
+\item 求数列 $\{a_{n}\}$ 的前 $n$ 项和 $S_{n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知数列 $\{a_{n}\}$ 满足 $a_{1} = 3, a_{n+1} = a_{n} + 2^{n} + 1$.
+\begin{enumerate}
+\item 求数列 $\{a_{n}\}$ 的通项公式；
+\item 若 $b_{n} = (2n - 1)a_{n} - 2n^{2} + n$，求数列 $\{b_n\}$ 的前 $n$ 项和 $S_{n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知数列 $\{a_{n}\}$ 为等差数列, 且 $a_{4} = 7, a_{7} = 13$.
+\begin{enumerate}
+\item 求 $\{a_{n}\}$ 的通项公式；
+\item 设 $b_{n} = C_{n}^{1} + C_{n}^{2} \times 2 + C_{n}^{3} \times 2^{2} + \dots + C_{n}^{n} \times 2^{n - 1}, n \in N^{*}$，且 $c_{n} = a_{n}(2b_{n} + 1)$，求数列 $\{c_{n}\}$ 的前 $n$ 项和 $S_{n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知 $\{a_{n}\}$ 是公差不为零的等差数列，满足 $a_1 = 1$ ，且 $a_1, a_2, a_7$ 成等比数列.
+\begin{enumerate}
+\item 求 $\{a_{n}\}$ 的通项公式；
+\item 设 $b_{n} = (a_{n} + 3)\cdot 2^{n - 1}$, 求数列 $\{b_n\}$ 的前 $n$ 项和 $T_{n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知 $\{a_{n}\}$ 与 $\{b_{n}\}$ 均为等差数列，且 $a_{n} - b_{n} = 2$ ， $a_{1} = b_{2} = 3$ .
+\begin{enumerate}
+\item 求 $\{a_{n}\}$ 与 $\{b_{n}\}$ 的通项公式；
+\item 求数列 $\left\{\left(\frac{a_n - 1}{2}\right) \cdot 2^{\frac{b_n - 1}{2}}\right\}$ 的前 $n$ 项和 $S_n$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+在等比数列 $\{a_{n}\}$ 中， $a_1 = 1$ ， $a_1\neq a_2$，且 $3a_{2},2a_{3},a_{4}$ 成等差数列.
+\begin{enumerate}
+\item 求 $\{a_{n}\}$ 的通项公式；
+\item 若 $b_{n} = \frac{n}{a_{n}}$，求 $\{b_{n}\}$ 的前 $n$ 项和 $S_{n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+设数列 $\left\{a_{n}\right\}$ 满足 $a_{1} = 3, a_{n+1} = \frac{n a_{n}}{n+1} + \frac{1}{n+1}$
+\begin{enumerate}
+\item 证明: $\{na_{n}\}$ 为等差数列并求 $a_{n}$;
+\item 设 $f(x) = a_{1}x + a_{2}x^{2} + \dots + a_{m}x^{m}$，求 $f'(x)$.
+\item 求 $f^{\prime}(-3)$
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知数列 $\{a_{n}\}$ 满足 $a_{1} = 1, a_{2} = 3$，且对任意正整数 $n \geqslant 3$ 有 $a_{n} = 3a_{n-1} - 2a_{n-2}$，数列 $\{b_{n}\}$ 满足 $b_{1} = 1, b_{n} = a_{n} - a_{n-1} (n \geqslant 2)$
+\begin{enumerate}
+\item 证明：数列 $\{b_n\}$ 是等比数列；
+\item 设 $c_{n} = \frac{2n - 1}{b_{n}}$ ，数列 $\{c_n\}$ 的前 $n$ 项和 $S_{n}$
+\begin{enumerate}
+\item 求 $S_{n}$
+\item 若不等式 $(-1)^n \lambda < S_n + \frac{n}{2^{n-2}}$ 对任意的正整数 $n$ 恒成立, 求实数 $\lambda$ 的取值范围.
+\end{enumerate}
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\section{倒序相加法}
+
+\begin{problem}
+已知函数 $f(x) = \frac{3}{9^x + 3}$.
+\begin{enumerate}
+\item 求证: 函数 $f(x)$ 的图象关于点 $\left(\frac{1}{2}, \frac{1}{2}\right)$ 对称;
+\item 求 $S = f(-2022) + f(-2021) + \dots + f(0) + \dots + f(2022) + f(2023)$ 的值.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知函数 $f(x) = \frac{1}{x + 1}$，数列 $\{a_{n}\}$ 是正项等比数列，且 $a_{10} = 1$，
+\begin{enumerate}
+\item 计算 $f(x) + f\left(\frac{1}{x}\right)$ 的值；
+\item 用书本上推导等差数列前 $n$ 项和的方法, 求 $f(a_{1}) + f(a_{2}) + f(a_{3}) + \dots + f(a_{18}) + f(a_{19})$ 的值.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+记 $S_{n}$ 为数列 $\{a_{n}\}$ 的前 $n$ 项和, 已知: $a_{1} = 1$ , $S_{n+1}a_{n} - S_{n}a_{n+1} = \frac{1}{2} a_{n+1}a_{n}(n \in \mathbb{N}^{*})$ .
+\begin{enumerate}
+\item 求证: 数列 $\left\{\frac{S_{n}}{a_{n}}\right\}$ 是等差数列, 并求数列 $\left\{a_{n}\right\}$ 的通项公式;
+\item 求和: $a_{1}C_{n}^{0} + a_{2}C_{n}^{1} + a_{3}C_{n}^{2} + \dots + a_{n+1}C_{n}^{n}$ .
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知数列 $\{a_{n}\}$ 满足 $\frac{a_{1}}{2} + \frac{a_{2}}{2^{2}} + \dots + \frac{a_{n}}{2^{n}} = n (n \in \mathbb{N}^{*})$，数列 $\{b_{n}\}$ 满足 $b_{n} = \frac{1}{a_{n} + 2^{50}}$ .
+\begin{enumerate}
+\item 求数列 $\{a_n\}$ 的通项公式；
+\item 求数列 $\left\{\frac{n}{a_{n}}\right\}$ 的前 $n$ 项和 $S_{n}$ ;
+\item 求数列 $\{b_n\}$ 的前99项的和 $T_{99}$ 的值.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+
+\section{分组与并项求和}
+
+\begin{question}
+已知数列 $\{a_{n}\}$ 的通项公式为 $a_{n} = \begin{cases} 2n - 1, & n \text{ 为奇数} \\ 2^{n}, & n \text{ 为偶数} \end{cases}$, 则数列 $\{a_{n}\}$ 的前 $n$ 项和 $S_{10} =$ \paren
+\begin{choices}
+\item 107
+\item 1409
+\item 1414
+\item 112
+\end{choices}
+\end{question}
+
+\begin{question}
+已知数列 $\{a_{n}\}$ 满足 $a_{n} = \begin{cases} 2, & n = 1 \\ 2n - 1, & n \geqslant 2 \end{cases}$, 则 $\sum_{k=1}^{10} a_{k} =$ \paren
+\begin{choices}
+\item 100
+\item 101
+\item 102
+\item 103
+\end{choices}
+\end{question}
+
+\begin{question}
+已知数列 $\{a_{n}\}$ 的前 $n$ 项和是 $S_{n}$, 且满足 $a_{1} = 3, a_{2k} = 8a_{2k - 1}, a_{2k + 1} = \frac{1}{2}a_{2k}, k \in N^{*}$, 则 $S_{2025} = $\paren
+\begin{choices}
+\item $4^{2025} - 1$
+\item $3 \times 2^{2025} - 3$
+\item $3 \times 4^{1013} - 9$
+\item $5 \times 4^{1012} - 2$
+\end{choices}
+\end{question}
+
+\begin{question}
+若数列 $\left\{a_{n}\right\}$ 满足 $a_{n+1} + \frac{n}{2^{n-1}} = 2a_{n} + \frac{n+1}{2^{n+1}}$， $a_{1} = \frac{5}{2}$， $\left\{a_{n}\right\}$ 的前 $n$ 项和为 $S_{n}$，则 $S_{100}$ 的整数部分为\paren
+\begin{choices}
+\item ${2}^{101} - 1$
+\item $2^{101}$
+\item $2^{101} + 1$
+\item $2^{100} + 1$
+\end{choices}
+\end{question}
+
+\begin{question}
+已知数列 $\{a_{n}\}$ 满足， $a_1 = 0$ ， $a_{n + 1} = \begin{cases} a_n + (\sqrt{3})^{n + 1},\\ 3a_n,n\text{为偶数} \end{cases}$ 设 $b_{n} = a_{2n}$ 记数列 $\{a_{n}\}$ 的前 $2n$ 项和为 $S_{2n}$，数列 $\{b_n\}$ 的前 $n$ 项和为 $T_{n}$，则下列结论正确的是\paren
+\begin{choices}
+\item $a_{3} = 9$
+\item $b_{n} = n \cdot 3^{n}$
+\item $T_{n} = \frac{(n - 1) \cdot 3^{n + 1} + 6}{2}$
+\item $S_{2n} = (n - 1) \cdot 3^{n + 1} + 3$
+\end{choices}
+\end{question}
+
+\begin{question}
+已知数列 $a_{n} = \left\{ \begin{array}{l}\frac{1}{2n - 1},n = 2k - 1,k\in N^{*}\\ \left(-\frac{1}{2}\right)^{n - 1},n = 2k,k\in N^{*} \end{array} \right.$ 则下列说法错误的是\paren
+\begin{choices}
+\item 数列 $\left\{a_{2n-1}\right\}$ 为等差数列
+\item $\{a_{n}\}$ 是单调递减数列
+\item 数列 $\left\{\frac{1}{a_{n}}\right\}$ 的前 20 项和为 -698860
+\item 若 $a_{m} a_{m+1}=a_{m+2}$, 则 $m=2$
+\end{choices}
+\end{question}
+
+\begin{question}
+已知数列 $\{a_{n}\}$ 的前 $n$ 项和为 $S_{n}$, $a_{1} = 1$, $a_{2} = 2$, $a_{n+2} = \left\{ \begin{array}{l} a_{n} + 2, n = 2k - 1, k \in N^{*} \\ 2a_{n}, n = 2k, k \in N^{*} \end{array} \right.$, 则满足 $2025 \leqslant S_{m} \leqslant 3000$ 的正整数 $m$ 的所有取值集合为 \fillin。
+\end{question}
+
+\begin{question}
+已知数列 $\{a_{n}\}$ 满足 $a_{n+1} = \begin{cases} 2a_{n}, & n \text{为奇数} \\ a_{n} + 2, & n \text{为偶数} \end{cases}$, $a_{1} = 0$, 则 $a_{8} =$ \fillin；设数列 $\{a_{n}\}$ 的前 $n$ 项和为 $S_{n}$, 则 $S_{2024} =$ \fillin。 (第二个空结果用指数幂表示)
+\end{question}
+
+\begin{problem}
+已知 $\{a_{n}\}$ 是各项均为正数的等比数列, 其前 $n$ 项和为 $S_{n}, a_{1} = 1$, 且 $S_{3} + a_{3}, S_{5} + a_{5}, S_{4} + a_{4}$ 成等差数列.
+\begin{enumerate}
+\item 求数列 $\{a_{n}\}$ 的通项公式；
+\item 设 $b_{n} = \begin{cases} a_{n}, & n = 2k - 1 \\ \frac{(3n + 5)a_{n}}{(n - 1)(n + 1)}, & n = 2k \end{cases}$，求数列 $\{b_{n}\}$ 的前 $2n$ 项和 $T_{2n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+记 $S_{n}$ 是数列 $\{a_{n}\}$ 的前 $n$ 项和, $a_{1} = 1$, $S_{3} = 6$, 且数列 $\left\{\frac{S_{n}}{n}\right\}$ 是等差数列.
+\begin{enumerate}
+\item 求 $\{a_{n}\}$ 的通项公式；
+\item 设若 $b_{n} = \begin{cases} a_{n}, & n \text{为奇数}, \\ \frac{1}{a_{n}a_{n+2}} & n \text{为偶数}, \end{cases}$ 求数列 $\{b_{n}\}$ 的前 $2n$ 项和 $T_{2n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知等差数列 $\{a_{n}\}$ 的前 $n$ 项和为 $S_{n}, a_{1} = 2, S_{6} = S_{5} + 7$ .
+\begin{enumerate}
+\item 求 $\{a_{n}\}$ 的通项公式；
+\item 若 $b_{n} = 2^{a_{n}}$ ，求数列 $\{a_{n} + b_{n}\}$ 的前 $n$ 项和 $T_{n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+记 $S_{n}$ 为正项数列 $\{a_{n}\}$ 的前 $n$ 项和, 已知 $2 S_{n} = a_{n}^{2} + a_{n}$.
+\begin{enumerate}
+\item 求数列 $\{a_{n}\}$ 的通项公式；
+\item 设数列 $b_{n} = \begin{cases} \frac{1}{a_{n}a_{n + 2}}, & n \text{为奇数} \\ a_{n} + 1, & n \text{为偶数} \end{cases}$，求数列 $\{b_n\}$ 的前 $2n$ 项和 $T_{2n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知数列 $\{a_{n}\}$ 的首项 $a_{1} = 1$, $a_{n} + a_{n+1} = 4 \times 3^{n}$.
+\begin{enumerate}
+\item 求证: $\left\{a_{n}-3^{n}\right\}$ 是等比数列;
+\item 求数列 $\{a_n\}$ 的前 $n$ 项和 $S_{n}$;
+\item 令 $b_{n} = \frac{n^{3}}{a_{n} - 2 \times (-1)^{n}}$, 求数列 $\{b_{n}\}$ 的最大项.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知等差数列 $\{a_{n}\}$ 前 $n$ 项和为 $S_{n}$，满足 $a_{4} = 8, S_{3} = 12$ .
+\begin{enumerate}
+\item 求数列 $\{a_n\}$ 的通项公式；
+\item 若等比数列 $\{b_n\}$ 前 $n$ 项和为 $T_{n}$，且 $b_{1}b_{2}b_{3} = 8,T_{2} = S_{2}$，设 $c_{n} = a_{n} + b_{n}$，求数列 $\{c_n\}$ 的前 $n$ 项和 $M_{n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+已知等比数列 $\{a_{n}\}$ 的前 $n$ 项和为 $S_{n}, a_{1} = 1$，且 $S_{6}, S_{8}, S_{7}$ 成等差数列。
+\begin{enumerate}
+\item 求 $a_{n}$;
+\item 设 $b_{n} = \begin{cases} n, & n \text{ 为偶数} \\ a_{n}, & n \text{ 为奇数} \end{cases}$， $T_{n}$ 是数列 $\{b_{n}\}$ 的前 $n$ 项和，求 $T_{2n}$；
+\item 设 $c_{n} = n^{2} \cdot 2^{n} \cdot |a_{n}|$, $Q_{n}$ 是 $\{c_{n}\}$ 的前 $n$ 项的积, 求证: $Q_{n} < 2^{n} \cdot \mathrm{e}^{n^{2} + n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}
+记 $S_{n}$ 为数列 $\{a_{n}\}$ 的前 $n$ 项和, $T_{n}$ 为数列 $\{n S_{n}\}$ 的前 $n$ 项和, 已知 $2 S_{n} + a_{n} = 3^{n}$ .
+\begin{enumerate}
+\item 证明: $\{4a_{n} - 3^{n}\}$ 为等比数列;
+\item 求 $S_{n}$;
+\item 求 $T_{n}$.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+\end{solution}
+
+\end{document}
