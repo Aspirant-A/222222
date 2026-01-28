@@ -1,98 +1,243 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Grade 10 Lecture Notes</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 10 Lecture Notes | STEM Lecture Notes Portal</title>
     <style>
-        body { font-family: Arial; margin: 40px; }
-        .back { margin-bottom: 20px; }
-        
+        /* 全局样式重置与基础配置（和主页面统一） */
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        :root {
+            /* 数理化主题色 */
+            --math-blue: #165DFF;
+            --physics-green: #00B42A;
+            --chem-orange: #FF7D00;
+            --dark-bg: #0F172A;
+            --light-bg: #1E293B;
+            --text-white: #F8FAFC;
+            --text-gray: #94A3B8;
+            --hover-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        /* 页面背景（移除图片，仅保留渐变背景） */
+        body { 
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif; 
+            min-height: 100vh;
+            margin: 0;
+            padding: 50px 20px;
+            /* 移除背景图片，仅保留渐变叠加层作为背景 */
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--light-bg) 100%);
+            /* 背景适配属性保留（无图片时不影响） */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: var(--text-white);
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* 粒子背景效果（保留，提升视觉层次） */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(22, 93, 255, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 20%, rgba(0, 180, 42, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 40% 40%, rgba(255, 125, 0, 0.1) 0%, transparent 40%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 返回按钮样式 */
+        .back { 
+            margin-bottom: 30px; 
+        }
+        .back a {
+            color: var(--math-blue);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back a:hover {
+            color: var(--physics-green);
+            text-shadow: 0 0 10px rgba(0, 180, 42, 0.3);
+            transform: translateX(-3px);
+        }
+
+        /* 标题样式 */
+        h1 {
+            font-size: 2.5em;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--math-blue), var(--physics-green), var(--chem-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(22, 93, 255, 0.2);
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            color: var(--text-white);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--math-blue), var(--physics-green));
+            border-radius: 3px;
+        }
+        h3 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: var(--text-gray);
+        }
+
         /* 科目选择按钮样式 */
         .subject-nav {
             display: flex;
             gap: 15px;
-            margin: 20px 0;
+            margin: 20px 0 30px;
             flex-wrap: wrap;
         }
         .subject-btn {
-            background: #6c5ce7;
-            color: white;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            color: var(--text-white);
             padding: 12px 24px;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-weight: bold;
             font-size: 16px;
-            transition: all 0.3s;
-            border: 2px solid transparent;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
+        /* 不同科目按钮的主题色 */
+        .subject-btn[onclick*="math"] { border-left: 3px solid var(--math-blue); }
+        .subject-btn[onclick*="physics"] { border-left: 3px solid var(--physics-green); }
+        .subject-btn[onclick*="chemistry"] { border-left: 3px solid var(--chem-orange); }
+        
         .subject-btn:hover {
-            background: #5b4bd8;
-            transform: translateY(-2px);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(255, 255, 255, 0.2);
         }
         .subject-btn.active {
-            background: #4CAF50;
-            border-color: #388E3C;
+            background: linear-gradient(135deg, var(--math-blue) 0%, #0F4CD8 100%);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(22, 93, 255, 0.3);
         }
-        
+
         /* 文件列表样式 */
         .file-item { 
-            background: #f9f9f9;
-            padding: 15px;
-            margin: 10px 0;
-            border-left: 4px solid #4CAF50;
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            border-left: 4px solid var(--math-blue);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+        .file-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        /* 不同科目文件项的左侧边框色 */
+        #math .file-item { border-left-color: var(--math-blue); }
+        #physics .file-item { border-left-color: var(--physics-green); }
+        #chemistry .file-item { border-left-color: var(--chem-orange); }
+
         .preview-btn {
-            background: #2196F3;
+            background: rgba(22, 93, 255, 0.7);
             color: white;
-            padding: 6px 12px;
+            padding: 8px 16px;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 8px;
             margin-right: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        .preview-btn:hover {
+            background: var(--math-blue);
+            box-shadow: 0 0 15px rgba(22, 93, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
         .download-dropdown {
             position: relative;
             display: inline-block;
         }
         .download-main-btn {
-            background: #4CAF50;
+            background: rgba(0, 180, 42, 0.7);
             color: white;
-            padding: 6px 12px;
+            padding: 8px 16px;
             text-decoration: none;
-            border-radius: 4px;
-            border: none;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
             font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .download-main-btn:hover {
+            background: var(--physics-green);
+            box-shadow: 0 0 15px rgba(0, 180, 42, 0.3);
+            transform: translateY(-2px);
         }
         .download-options {
             display: none;
             position: absolute;
-            background: white;
-            min-width: 120px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            border-radius: 4px;
-            z-index: 1;
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(15px);
+            min-width: 140px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            z-index: 999;
             top: 100%;
             left: 0;
-            margin-top: 5px;
+            margin-top: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .download-options a {
-            color: #333;
-            padding: 8px 12px;
+            color: var(--text-white);
+            padding: 10px 15px;
             text-decoration: none;
             display: block;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease;
         }
         .download-options a:hover {
-            background: #f5f5f5;
+            background: var(--hover-bg);
+            color: var(--math-blue);
+            padding-left: 20px;
         }
         .download-dropdown:hover .download-options {
             display: block;
         }
         .button-group {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             align-items: center;
         }
         .file-info {
@@ -100,55 +245,107 @@
             flex-direction: column;
         }
         .file-available {
-            font-size: 12px;
-            color: #666;
-            margin-top: 4px;
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-top: 6px;
         }
-        
+
         /* 科目内容区域 */
         .subject-content {
             display: none;
             margin-top: 20px;
+            animation: fadeIn 0.5s ease;
         }
         .subject-content.active {
             display: block;
         }
+
+        /* 说明文本样式 */
+        p[style*="margin-top: 30px"] {
+            margin-top: 40px !important;
+            color: var(--text-gray) !important;
+            font-size: 14px !important;
+            line-height: 1.8 !important;
+            background: rgba(15, 23, 42, 0.5) !important;
+            padding: 20px !important;
+            border-radius: 12px !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        }
+        code {
+            background: var(--dark-bg) !important;
+            padding: 2px 6px !important;
+            border-radius: 4px !important;
+            color: var(--chem-orange) !important;
+            font-size: 13px !important;
+        }
+
+        /* 淡入动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.5em; }
+            .file-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .button-group {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .subject-nav {
+                gap: 10px;
+            }
+            .subject-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+                width: 100%;
+                text-align: center;
+            }
+        }
     </style>
+    <!-- 引入和主页面相同的现代字体 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
 </head>
 <body>
     <div class="back">
-        <a href="../index.html">&#8592; Back to Homepage</a>
+        <a href="../index.html">← Back to Homepage</a>
     </div>
     
-    <h1>&#128216; Grade 10 Lecture Notes</h1>
+    <h1>📘 Grade 10 Lecture Notes</h1>
     
     <!-- 科目选择导航 -->
     <h3>Select Subject:</h3>
     <div class="subject-nav">
         <a href="javascript:void(0)" class="subject-btn active" onclick="showSubject('math')">
-            &#128288; Mathematics
+            📐 Mathematics
         </a>
         <a href="javascript:void(0)" class="subject-btn" onclick="showSubject('physics')">
-            &#128237; Physics
+            🔭 Physics
         </a>
         <a href="javascript:void(0)" class="subject-btn" onclick="showSubject('chemistry')">
-            &#129502; Chemistry
+            🧪 Chemistry
         </a>
     </div>
     
     <!-- 数学科目内容 -->
     <div id="math" class="subject-content active">
-        <h2>&#128218; Mathematics Lecture Notes</h2>
+        <h2>📚 Mathematics Lecture Notes</h2>
         <div class="file-list">
             <div class="file-item">
                 <div class="file-info">
-                    <span>&#128196; FinalExamPaper-Zhengzhou-2025</span>
+                    <span>📄 FinalExamPaper-Zhengzhou-2025</span>
                     <div class="file-available">Available Formats: PDF | TEX</div>
                 </div>
                 <div class="button-group">
                     <a href="Mathematics/pdf/FinalExamPaper-Zhengzhou-2025.pdf" target="_blank" class="preview-btn">Preview PDF</a>
                     <div class="download-dropdown">
-                        <button class="download-main-btn">Download &#9660;</button>
+                        <button class="download-main-btn">Download ▼</button>
                         <div class="download-options">
                             <a href="Mathematics/pdf/FinalExamPaper-Zhengzhou-2025.pdf" download>PDF File</a>
                             <a href="Mathematics/tex/FinalExamPaper-Zhengzhou-2025.tex" download>TEX Source File</a>
@@ -156,22 +353,24 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- 可以在这里添加更多数学文件 -->
         </div>
     </div>
     
     <!-- 物理科目内容 -->
     <div id="physics" class="subject-content">
-        <h2>&#128218; Physics Lecture Notes</h2>
+        <h2>🔭 Physics Lecture Notes</h2>
         <div class="file-list">
             <div class="file-item">
                 <div class="file-info">
-                    <span>&#128196; Fundamentals of Mechanics</span>
+                    <span>📄 Fundamentals of Mechanics</span>
                     <div class="file-available">Available Formats: PDF | TEX</div>
                 </div>
                 <div class="button-group">
                     <a href="pdf/Fundamentals of Mechanics.pdf" target="_blank" class="preview-btn">Preview PDF</a>
                     <div class="download-dropdown">
-                        <button class="download-main-btn">Download &#9660;</button>
+                        <button class="download-main-btn">Download ▼</button>
                         <div class="download-options">
                             <a href="pdf/Fundamentals of Mechanics.pdf" download>PDF File</a>
                             <a href="tex/Fundamentals of Mechanics.tex" download>TEX Source File</a>
@@ -179,22 +378,24 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- 可以在这里添加更多物理文件 -->
         </div>
     </div>
     
     <!-- 化学科目内容 -->
     <div id="chemistry" class="subject-content">
-        <h2>&#128218; Chemistry Lecture Notes</h2>
+        <h2>🧪 Chemistry Lecture Notes</h2>
         <div class="file-list">
             <div class="file-item">
                 <div class="file-info">
-                    <span>&#128196; Fundamentals of Organic Chemistry</span>
+                    <span>📄 Fundamentals of Organic Chemistry</span>
                     <div class="file-available">Available Formats: PDF | TEX</div>
                 </div>
                 <div class="button-group">
                     <a href="pdf/Fundamentals of Organic Chemistry.pdf" target="_blank" class="preview-btn">Preview PDF</a>
                     <div class="download-dropdown">
-                        <button class="download-main-btn">Download &#9660;</button>
+                        <button class="download-main-btn">Download ▼</button>
                         <div class="download-options">
                             <a href="pdf/Fundamentals of Organic Chemistry.pdf" download>PDF File</a>
                             <a href="tex/Fundamentals of Organic Chemistry.tex" download>TEX Source File</a>
@@ -202,6 +403,8 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- 可以在这里添加更多化学文件 -->
         </div>
     </div>
     
@@ -225,17 +428,24 @@
             }
             
             // 设置当前按钮为活跃状态
-            event.target.classList.add('active');
+            if (event) {
+                event.target.classList.add('active');
+            }
         }
         
         // 页面加载时默认显示数学
         window.onload = function() {
             showSubject('math');
+            // 补充：校验登录状态，未登录跳登录页
+            const loginUser = localStorage.getItem('loginUser');
+            if (!loginUser) {
+                window.location.href = '../login.html';
+            }
         };
     </script>
     
     <p style="margin-top: 30px; color: #666;">
-        &#128161; Usage Instructions:<br>
+        💡 Usage Instructions:<br>
         1. Click subject buttons to switch between different subjects' lecture notes<br>
         2. PDF files are stored in: <code>Grade 10/[Selected Subject]/pdf/</code> folder<br>
         3. TEX files are stored in: <code>Grade 10/[Selected Subject]/tex/</code> folder<br>
